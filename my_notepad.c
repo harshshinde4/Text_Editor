@@ -163,7 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                 case NEW_FILE_SELECTED:
                     SaveFileMessagebox(hWnd, size);
-                    path[0] = '\0';     //setting the first index of array to \0
+                    path[0] = '\0';                          //setting the first index of array to \0
                     SetWindowTextA(hFileName, "untitled");
                     SetWindowTextA(hInput, NULL);
                     size = 0;
@@ -417,10 +417,10 @@ int nWriteFile (char* path)
     int size = 0;
     char* data = NULL;
 
-    file = fopen(path, "w");    //opens the filename pointed to, by fileName using the w(write) mode.
+    file = fopen(path, "w");                //opens the filename pointed to, by fileName using the w(write) mode.
     size = GetWindowTextLength(hInput);
     data = (char*)realloc(data, (size+1)*sizeof(char));
-    GetWindowTextA(hInput, data, size+1); // collecting/catching the text from window whose handler is hInput
+    GetWindowTextA(hInput, data, size+1);       // collecting/catching the text from window whose handler is hInput
 
     fwrite(data, size, 1, file);
     fclose(file); 
@@ -457,6 +457,7 @@ char* GetFileName(char* str)
         strcpy(FileName, "Untitled");
         return(FileName);
     }
+    
     // collecting the characters from str to FileName
     for(i = 0; str[length - i - 1] != '\0'; ++i)
     {
@@ -483,7 +484,7 @@ void SaveFileMessagebox(HWND hWnd, int size)
     char msg[300] = "Do you want to save the changes you made to the file";
     char* FileName = NULL;
         
-    if((size) != GetWindowTextLength(hInput)) // comparing the size of input text && the text present on input child
+    if((size) != GetWindowTextLength(hInput))   // comparing the size of input text && the text present on input child
     {
         FileName = GetFileName(path);
         strcat(msg, FileName);
