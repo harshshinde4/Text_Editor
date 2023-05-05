@@ -1,4 +1,3 @@
-// ss 257 onwards
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,14 +60,14 @@ void SaveFileMessagebox(HWND hWnd, int size);
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // Global variables
-HWND hInput = NULL, hShreeGaneshPrasanna = NULL, hFileName = NULL;      // for input
+HWND hInput = NULL, hHey = NULL, hFileName = NULL;      // for input
 HMENU hMenu = NULL, hFileMenu = NULL, hSetBaseButton = NULL, hSetBaseButtonSub = NULL;     // handler to the menu
 char path[100];
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
     static TCHAR szAppName[] = TEXT("The Standard Window");
-    static TCHAR szWindowName[] = TEXT("NotePad -by HARSH");
+    static TCHAR szWindowName[] = TEXT("NotesEditor -by HARSH");
 
     HWND hWnd = NULL;
     HBRUSH hBrush = NULL;
@@ -148,7 +147,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
             cxScreen = LOWORD(lParam);
             cyScreen = HIWORD(lParam);
-            MoveWindow(hShreeGaneshPrasanna, 0, 0, cxScreen, cyScreen, TRUE);   // If user change the size of the MAIN WINDOW then 
+            MoveWindow(hHey, 0, 0, cxScreen, cyScreen, TRUE);   // If user change the size of the MAIN WINDOW then 
             MoveWindow(hInput, 21, 50, cxScreen-24, cyScreen-70, TRUE);        // this function will move all child w.r.t. SIZE OF MAIN WINDOW.
             break;
 
@@ -163,7 +162,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                 case NEW_FILE_SELECTED:
                     SaveFileMessagebox(hWnd, size);
-                    path[0] = '\0';                          //setting the first index of array to \0
+                    path[0] = '\0';     //setting the first index of array to \0
                     SetWindowTextA(hFileName, "untitled");
                     SetWindowTextA(hInput, NULL);
                     size = 0;
@@ -233,7 +232,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void AddControls(HWND hWnd, int cxScreen, int cyScreen)
 {
-    hShreeGaneshPrasanna = CreateWindow(TEXT("Static"), TEXT("\n|| Shree Ganesh Prasanna ||"), WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER,
+    hHey = CreateWindow(TEXT("Static"), TEXT("\nHey.. What's upp..!"), WS_CHILD | WS_VISIBLE | WS_BORDER | SS_CENTER,
                             0, 0, cxScreen, cyScreen, hWnd, NULL, NULL, NULL);
     hFileName = CreateWindow(TEXT("Edit"), TEXT("Untitled"), WS_CHILD | WS_VISIBLE | ES_LEFT | ES_READONLY ,
                             20, 30, 200, 20, hWnd, NULL, NULL, NULL);
@@ -417,10 +416,10 @@ int nWriteFile (char* path)
     int size = 0;
     char* data = NULL;
 
-    file = fopen(path, "w");                //opens the filename pointed to, by fileName using the w(write) mode.
+    file = fopen(path, "w");    //opens the filename pointed to, by fileName using the w(write) mode.
     size = GetWindowTextLength(hInput);
     data = (char*)realloc(data, (size+1)*sizeof(char));
-    GetWindowTextA(hInput, data, size+1);       // collecting/catching the text from window whose handler is hInput
+    GetWindowTextA(hInput, data, size+1); // collecting/catching the text from window whose handler is hInput
 
     fwrite(data, size, 1, file);
     fclose(file); 
@@ -457,7 +456,6 @@ char* GetFileName(char* str)
         strcpy(FileName, "Untitled");
         return(FileName);
     }
-    
     // collecting the characters from str to FileName
     for(i = 0; str[length - i - 1] != '\0'; ++i)
     {
@@ -484,7 +482,7 @@ void SaveFileMessagebox(HWND hWnd, int size)
     char msg[300] = "Do you want to save the changes you made to the file";
     char* FileName = NULL;
         
-    if((size) != GetWindowTextLength(hInput))   // comparing the size of input text && the text present on input child
+    if((size) != GetWindowTextLength(hInput)) // comparing the size of input text && the text present on input child
     {
         FileName = GetFileName(path);
         strcat(msg, FileName);
@@ -492,7 +490,7 @@ void SaveFileMessagebox(HWND hWnd, int size)
         free(FileName);
         FileName = NULL;
 
-        if(IDYES == MessageBox(hWnd, TEXT(msg), TEXT("Notepad - by HARSH !"), MB_YESNO | MB_ICONEXCLAMATION |MB_APPLMODAL))
+        if(IDYES == MessageBox(hWnd, TEXT(msg), TEXT("NotesEditor - by HARSH !"), MB_YESNO | MB_ICONEXCLAMATION |MB_APPLMODAL))
         {
             if(path[0] != '\0')
                 size = nWriteFile(path);
@@ -501,6 +499,11 @@ void SaveFileMessagebox(HWND hWnd, int size)
         }
     }
 }
+
+
+
+
+
 
 
 
